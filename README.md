@@ -16,17 +16,14 @@ functions to show the game status, a game log and to administrate the game.
 
 ## Installation of Django + Django packages with pip
 
-### Dependencies
 Here, we assume python3 >= python3.8.
+It is recommended to install the software within a virtualenv with pip.
+
+### Dependencies
 
 ```
 sudo apt-get install python3-pip node-less
-pip3 install Django==2.2
-pip3 install --upgrade django-polymorphic django-debug-toolbar django-erroneous \
-			 django-registration-redux django-crispy-forms \
-			 django-floppyforms django-sendmail-backend django-static-precompiler \
-			 django_bleach \
-			 mysql-connector-python pytz setuptools six sqlparse
+pip3 install < requirements.txt
 ```
 
 ### Configuration
