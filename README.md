@@ -22,8 +22,9 @@ It is recommended to install the software within a virtualenv with pip.
 ### Dependencies
 
 ```
-sudo apt-get install python3-pip node-less
-pip3 install < requirements.txt
+sudo apt install python3-pip node-less
+sudo apt install default-libmysqlclient-dev
+pip3 install -r requirements.txt
 ```
 
 ### Configuration
