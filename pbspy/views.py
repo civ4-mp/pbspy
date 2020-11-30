@@ -264,7 +264,15 @@ class GameDetailView(FormMixin, DetailView):
 
         game.player_finished_count = \
             sum(1 for p in context['players'] if p.finished_turn)
+        game.player_dead_count = \
+            sum(1 for p in context['players'] if p.is_dead())
         game.player_count = len(context['players'])
+
+        # To avoid to much logic in templates
+        game.player_finished_count2 = \
+                game.player_finished_count - game.player_dead_count
+        game.player_count2 = \
+                game.player_count - game.player_dead_count
 
         if self.request.user.is_authenticated:
             # above check avoids 'AnonymousUser' object is not iterable

@@ -52,6 +52,15 @@ python3 manage.py createsuperuser
 python3 manage.py runserver 0.0.0.0:8000
 ```
 
+### Update of Localization
+
+```
+python3 manage.py makemessages -l de
+[Editing po file, e.g insert new translations ]
+python3 manage.py compilemessages -l de
+```
+
+
 ## Known issues
 
 - Error: `ENOENT: no such file or directory, mkdir '[...]/static/COMPILED/pbspy/less/defaultstyle'`

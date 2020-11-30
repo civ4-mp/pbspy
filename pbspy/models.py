@@ -853,6 +853,9 @@ class Player(models.Model):
             return self._Status(4, 'online', _('online'))
         return self._Status(3, 'offline', _('offline'))
 
+    def is_dead(self):
+        return (self.score <= 0)
+
     def set_from_dict(self, info, logargs, is_save=True, is_log=True):
         logargs['player'] = self
         logargs['player_name'] = self.name

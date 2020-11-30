@@ -23,11 +23,17 @@
             {# {% if not game.is_finished %} #}
             {% if not game.victory_type > -1 %}
                 <p class="game_info">
-                    {% blocktrans trimmed count n=players_online|length with players=game.player_count finished=game.player_finished_count %}
+                    {% blocktrans trimmed count finished=game.player_finished_count2 with players=game.player_count2 %}
                     One of {{ players }} players had finished his/hers turn.
                     {% plural %}
                     {{ finished }} of {{ players }} players have finished their turn.
-                    {% endblocktrans %}<br/>
+                    {% endblocktrans %}
+                    {% if game.player_dead_count > 0%}
+                    {% blocktrans trimmed with players=game.player_count %}
+                    ({{ players }} players overall)
+                    {% endblocktrans %}
+                    {% endif %}
+                    <br/>
                     {% if game.is_paused %}
                     {% trans "The game is paused." %}
                     {% else %}
