@@ -33,7 +33,8 @@
                 <tr>
                     <td class="colId">{{ player.ingame_id }}</td>
                     <td class="colName">{{ player.name }}</td>
-                    <td class="colStatus"  >{{ player.status }}</td>
+                    <td class="colStatus"
+                        class="player_{{ player.status.css_class }}" >{{ player.status.message }}</td>
                     <td class="colFinish">
                         <form method="post" action="{% url 'game_manage' game.id 'end_player_turn' %}">
                             {% csrf_token %}
