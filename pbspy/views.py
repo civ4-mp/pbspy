@@ -61,9 +61,13 @@ class GameListView(ListView):
             Q(is_private=False) & ~Q(year=None) | Q(admins__id=self.request.user.id)
         ).annotate(
             wrong_player_count=Count(Case(When(player__ingame_stack=0, then=1))),
-            admin_count=Count('admins__id', distinct=True)
+            admin_count=Count('admins__id', distinct=True),
+            wrong_player_to_wait_count=Count(Case(When(player__ingame_stack=0,
+                                                 player__finished_turn=False,
+                                                 then=1))),
         ).annotate(
-            player_count=F('wrong_player_count')/F('admin_count')
+            player_count=F('wrong_player_count')/F('admin_count'),
+            player_to_wait_count=F('wrong_player_to_wait_count')/F('admin_count')
         ).order_by('-id')
 
         self.refresh_games(games_queryset)

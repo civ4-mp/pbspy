@@ -10,6 +10,8 @@
                 <th class="colYear">Current Year</th>
                 <th class="colTurn">Turn</th>
                 <th class="colStatus">Status</th>
+                <th class="colNumPlayers">#ToPlay</th>
+                <th class="colStatus">Time left</th>
             </tr>
             {% for game in game_list %}
                 {% if not game.get_status == "finished" %}
@@ -19,6 +21,15 @@
                     <td class="colYear">{{ game.year_str }}</td>
                     <td class="colTurn">{{ game.turn }}</td>
                     <td class="colStatus game_{{ game.get_status }}">{{ game.get_status }}</td>
+                    <td class="colNumPlayers">{{ game.player_to_wait_count }}</td>
+                    <td class="colStatus">
+											{% if game.timer %}
+											{% blocktrans trimmed with end=game.timer_end|timeuntil end_rt=game.timer_end_realtime|timeuntil %}
+										{{ end_rt }}
+										{% endblocktrans %}
+									{% else %}—
+									{% endif %}
+										</td>
                 </tr>
                 {% endif %}
             {% endfor %}
