@@ -32,6 +32,9 @@
         </form>
     </div>
     <div class="game_management_section_imploded">
+        <h2><a href="{% url 'game_manage' game.id 'complete_player_turn' %}">{% trans "complete/incomplete turn of player" %}</a></h2>
+    </div>
+    <div class="game_management_section_imploded">
         <h2 id="set_turn_timer" class="anchor">{% trans "set turn timer" %}</h2>
         <span class="description">{% trans "Time for the next round. Note that the ingame clock runs slower as expected. A value of 20 corresponds with 24 hours." %}</span>
 
@@ -74,9 +77,6 @@
     </div>
     <div class="game_management_section_imploded">
         <h2><a href="{% url 'game_manage' game.id 'color' %}">{% trans "change colorset of player" %}</a></h2>
-    </div>
-    <div class="game_management_section_imploded">
-        <h2><a href="{% url 'game_manage' game.id 'complete_player_turn' %}">{% trans "end turn of player" %}</a></h2>
     </div>
     <div class="game_management_section_imploded">
         <h2><a href="{% url 'game_manage' game.id 'kick' %}">{% trans "kick player" %}</a></h2>
