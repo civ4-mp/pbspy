@@ -547,9 +547,11 @@ def game_manage(request, game_id, action=""):
                     game.pb_kick(playerId, user=request.user)
                     return HttpResponse('player kicked.', status=200)
                 except InvalidPBResponse:
-                    return HttpResponseBadRequest('Kicking of player %d failed.' % (playerId,))
+                    return HttpResponseBadRequest(
+                        'Kicking of player {} failed.'.format(playerId))
 
-            return HttpResponse('Cannot kick player. Wrong player id.', status=200)
+            return HttpResponse(
+                'Cannot kick player. Wrong player id.', status=200)
         elif action == 'complete_player_turn':
             playerId = int(request.POST.get("id", -1))
             if playerId > -1:
@@ -557,9 +559,24 @@ def game_manage(request, game_id, action=""):
                     game.pb_complete_player_turn(playerId, user=request.user)
                     return HttpResponse('player turn finished.', status=200)
                 except InvalidPBResponse:
-                    return HttpResponseBadRequest('Finishing turn of player %d failed.' % (playerId,))
+                    return HttpResponseBadRequest(
+                        'Finishing turn of player {} failed.'.format(playerId))
 
-            return HttpResponse('Cannot finish player turn. Wrong player id.', status=200)
+            return HttpResponse('Cannot finish player turn. Wrong player id.',
+                                status=200)
+        elif action == 'incomplete_player_turn':
+            playerId = int(request.POST.get("id", -1))
+            if playerId > -1:
+                try:
+                    game.pb_incomplete_player_turn(playerId, user=request.user)
+                    return HttpResponse('player turn reset to incomplete.',
+                                        status=200)
+                except InvalidPBResponse:
+                    return HttpResponseBadRequest(
+                        'Resetting turn completion of player {} failed.'.format(playerId))
+
+            return HttpResponse('Cannot finish player turn. Wrong player id.',
+                                status=200)
         else:
             return HttpResponseBadRequest('bad request')
 
@@ -571,8 +588,8 @@ def game_manage(request, game_id, action=""):
         return render_game_manage_load(request, game, context)
     elif action == 'kick':
         return render_game_manage_kick(request, game, context)
-    elif action == 'complete_player_turn':
-        return render_game_manage_complete_player_turn(request, game, context)
+    elif action in ['complete_player_turn', 'incomplete_player_turn']:
+        return render_game_manage_player_states(request, game, context)
     elif action == 'motd':
         return render_game_manage_motd(request, game, context)
 
@@ -585,13 +602,13 @@ def render_game_manage_color(request, game, context):
     # Add RGB-Values as own list. (How to convert RGBA-Values in templates?!)
     def _rgb(rgba):
         rgb = [int(c) for c in rgba.split(",")][:3]
-        #return ",".join([str(c) for c in rgb])
+        # return ",".join([str(c) for c in rgb])
         return "#{0:02X}{1:02X}{2:02X}".format(*rgb)
 
-    context['colorsRGB'] = [ {"id": rgba["id"],
-                              "primary":_rgb(rgba["primary"]),
-                              "secondary": _rgb(rgba["secondary"]),
-                              "text": _rgb(rgba["text"])}
+    context['colorsRGB'] = [{"id": rgba["id"],
+                             "primary":_rgb(rgba["primary"]),
+                             "secondary": _rgb(rgba["secondary"]),
+                             "text": _rgb(rgba["text"])}
                             for rgba in context['colors']]
 
     if len(context['colors']) == 0:
@@ -632,7 +649,7 @@ def render_game_manage_kick(request, game, context):
     return render(request, 'pbspy/game_manage_player_states.html', context)
 
 
-def render_game_manage_complete_player_turn(request, game, context):
+def render_game_manage_player_states(request, game, context):
     context['show_end_turn_table'] = True
     context['players'] = list(game.player_set.filter(ingame_stack=0).order_by('ingame_id'))
     context['players_online'] = game.get_online_players()
@@ -890,7 +907,7 @@ def save_current_filter(session, game, filter_name, bAbsolute=False):
     filter_name = escape(strip_tags(filter_name)).strip()
     m = GameLogSaveFilterForm.MAX_SAVEABLE_NUMBER
     if len(filterstore) >= m:
-        raise ValueError(('Can not store more than %i entries.' % (m)))
+        raise ValueError(('Can not store more than {} entries.'.format(m)))
     if len(filter_name) < 1:
         raise ValueError('Invalid filter name')
 

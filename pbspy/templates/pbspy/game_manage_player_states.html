@@ -28,6 +28,7 @@
                     <th class="colName">Player</th>
                     <th class="colStatus"  >{% trans "Status" %}</th>
                     <th class="colFinish"></th>
+                    <th class="colFinish"></th>
                 </tr>
                 {% for player in players %}
                 <tr>
@@ -40,7 +41,24 @@
                             {% csrf_token %}
                             <span>
                                 <input type="hidden" value="{{ player.ingame_id }}" name="id" />
-                                <input type="submit" value="{% trans "finish" %}" />
+                                <input type="submit" value="{% trans "finish" %}"
+                                                     {% if player.finished_turn %}
+                                                     disabled
+                                                     {% endif %}
+                                />
+                            </span>
+                        </form>
+                    </td>
+                    <td class="colFinish">
+                        <form method="post" action="{% url 'game_manage' game.id 'incomplete_player_turn' %}">
+                            {% csrf_token %}
+                            <span>
+                                <input type="hidden" value="{{ player.ingame_id }}" name="id" />
+                                <input type="submit" value="{% trans "finish" %}"
+                                                     {% if not player.finished_turn %}
+                                                     disabled
+                                                     {% endif %}
+                                />
                             </span>
                         </form>
                     </td>
