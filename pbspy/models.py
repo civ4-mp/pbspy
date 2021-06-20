@@ -472,8 +472,8 @@ class Game(models.Model):
         result = self.pb_action(action='kickPlayer', playerId=int(player_id))
         return result
 
-    def pb_end_player_turn(self, player_id, user=None):
-        result = self.pb_action(action='endPlayerTurn', playerId=int(player_id))
+    def pb_complete_player_turn(self, player_id, user=None):
+        result = self.pb_action(action='completePlayerTurn', playerId=int(player_id))
         return result
 
     def pb_set_current_turn_timer(self, hours, minutes, seconds, user=None):

@@ -36,7 +36,7 @@
                     <td class="colStatus"
                         class="player_{{ player.status.css_class }}" >{{ player.status.message }}</td>
                     <td class="colFinish">
-                        <form method="post" action="{% url 'game_manage' game.id 'end_player_turn' %}">
+                        <form method="post" action="{% url 'game_manage' game.id 'complete_player_turn' %}">
                             {% csrf_token %}
                             <span>
                                 <input type="hidden" value="{{ player.ingame_id }}" name="id" />
