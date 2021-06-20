@@ -21,14 +21,22 @@
         {% if show_end_turn_table %}
         <div class="game_management_section">
             <h2>{% trans "end turn of player" %}</h2>
-            <span class="description">{% trans "Call sendTurnComplete() for given player." %}</span>
+            <span class="description">
+							{% blocktrans %}
+							Completes turn (red button state) of players or
+							incompletes turn (green button state).
+							{% endblocktrans %}<br />
+							{% blocktrans %}
+							If it doesn't work the mod probably does not contain
+							the required DLL changes.
+							{% endblocktrans %}
+							{% trans "" %}</span>
             <table class='game_list' border="3">
                 <tr>
                     <th class="colId">Id</th>
                     <th class="colName">Player</th>
                     <th class="colStatus"  >{% trans "Status" %}</th>
-                    <th class="colFinish"></th>
-                    <th class="colFinish"></th>
+										<th class="colFinish" colspan=2>{% trans "Turn" %}</th>
                 </tr>
                 {% for player in players %}
                 <tr>
@@ -36,6 +44,9 @@
                     <td class="colName">{{ player.name }}</td>
                     <td class="colStatus"
                         class="player_{{ player.status.css_class }}" >{{ player.status.message }}</td>
+										{% if player.status.desc == 'eliminated' %}
+										<td class="colFinish" colspan=2 style="text-align:center">—</td>
+										{% else %}
                     <td class="colFinish">
                         <form method="post" action="{% url 'game_manage' game.id 'complete_player_turn' %}">
                             {% csrf_token %}
@@ -54,7 +65,7 @@
                             {% csrf_token %}
                             <span>
                                 <input type="hidden" value="{{ player.ingame_id }}" name="id" />
-                                <input type="submit" value="{% trans "finish" %}"
+                                <input type="submit" value="{% trans "reset" %}"
                                                      {% if not player.finished_turn %}
                                                      disabled
                                                      {% endif %}
@@ -62,6 +73,7 @@
                             </span>
                         </form>
                     </td>
+										{% endif %}
                 </tr>
                 {% endfor %}
             </table>

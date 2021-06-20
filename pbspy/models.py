@@ -842,20 +842,21 @@ class Player(models.Model):
     subscribed_users = models.ManyToManyField(
         User, related_name='subscribed_players', blank=True)
 
-    _Status = namedtuple('_Status', ('order', 'css_class', 'message'))
+    # Do not change 'desc' value without care
+    _Status = namedtuple('_Status', ('order', 'desc', 'css_class', 'message'))
 
     def status(self):
         if not self.ingame_stack == 0:
-            return self._Status(-1, 'unkown', _('unknown'))
+            return self._Status(-1, 'unknown', 'unkown', _('unknown'))
         if self.score == 0:
-            return self._Status(0, 'eliminated', _('eliminated'))
+            return self._Status(0, 'eliminated', 'eliminated', _('eliminated'))
         if not self.is_claimed:
-            return self._Status(1, 'unclaimed', _('unclaimed'))
+            return self._Status(1, 'unclaimed', 'unclaimed', _('unclaimed'))
         if not self.is_human:
-            return self._Status(2, 'AI', _('AI'))
+            return self._Status(2, 'AI', 'AI', _('AI'))
         if self.is_online:
-            return self._Status(4, 'online', _('online'))
-        return self._Status(3, 'offline', _('offline'))
+            return self._Status(4, 'online', 'online', _('online'))
+        return self._Status(3, 'offline', 'offline', _('offline'))
 
     def is_dead(self):
         return (self.score <= 0)
