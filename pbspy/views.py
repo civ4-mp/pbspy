@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
+import os.path
 import json
 import operator
 import functools
@@ -406,6 +407,7 @@ def game_manage(request, game_id, action=""):
                'short_names_form': GameManagementShortNamesForm(),
                'save_form': GameManagementSaveForm()}
 
+    """
     saves = sorted(game.pb_list_saves(), key=lambda k: -k['timestamp'])
     load_choices = [('restart', 'Save and reload current game')]
 
@@ -417,6 +419,8 @@ def game_manage(request, game_id, action=""):
         load_choices.append(choice)
 
     context['load_form'] = GameManagementLoadForm(load_choices)
+    """
+
     context['set_player_password_form'] = GameManagementSetPlayerPasswordForm(
         game.player_set.filter(ingame_stack=0))
 
@@ -630,9 +634,32 @@ def render_game_manage_load(request, game, context):
     saves = sorted(game.pb_list_saves(), key=lambda k: -k['timestamp'])
     load_choices = [('restart', 'Save and reload current game')]
 
+
+    # Evaluate space needed for mod name
+    mod_name_max_len = 20  # Upper bound
+    mod_name_len = 4       # Lower bound
+    for s in saves:
+            mod_name_len = max(mod_name_len,len(s.get("mod","")))
+    mod_name_len = min(mod_name_max_len, mod_name_len)
+
+    # Prepare format strings
+    # HEADER_FMT="{{:24s}} {{:{}s}} | {{}}".format(mod_name_len)
+    LINE_FMT="{{DATE:24s}} {{MOD:{}s}}{{DOTS}}| {{NAME}}".format(mod_name_len)
+
     for save in saves:
         folder_index = int(save['folderIndex'])
         key = "/".join([str(folder_index), save['name']])
+
+        date = s.get("date", "date?")
+        name = os.path.splitext(s.get("name", "name?"))[0]
+        mod = s.get("mod", "-?-")
+        label = LINE_FMT.format(
+            DATE=date,
+            MOD=mod[:mod_name_len],
+            DOTS="…" if len(mod) > mod_name_len else " ",
+            NAME=name,
+        )
+
         label = "{} ({})".format(save['name'], save['date'])
         choice = (key, label)
         load_choices.append(choice)
