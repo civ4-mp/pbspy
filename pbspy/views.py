@@ -638,29 +638,32 @@ def render_game_manage_load(request, game, context):
     # Evaluate space needed for mod name
     mod_name_max_len = 20  # Upper bound
     mod_name_len = 4       # Lower bound
-    for s in saves:
-            mod_name_len = max(mod_name_len,len(s.get("mod","")))
+    for save in saves:
+            mod_name_len = max(mod_name_len,len(save.get("mod","")))
     mod_name_len = min(mod_name_max_len, mod_name_len)
 
     # Prepare format strings
-    # HEADER_FMT="{{:24s}} {{:{}s}} | {{}}".format(mod_name_len)
-    LINE_FMT="{{DATE:24s}} {{MOD:{}s}}{{DOTS}}| {{NAME}}".format(mod_name_len)
+    # header_fmt="{{:24s}} {{:{}s}} | {{}}".format(mod_name_len)
+    line_fmt="{{DATE:24s}} {{MOD:{}s}}{{DOTS}}| {{NAME}}".format(mod_name_len)
 
     for save in saves:
         folder_index = int(save['folderIndex'])
         key = "/".join([str(folder_index), save['name']])
 
-        date = s.get("date", "date?")
-        name = os.path.splitext(s.get("name", "name?"))[0]
-        mod = s.get("mod", "-?-")
-        label = LINE_FMT.format(
+        # Simple label
+        # label = "{} ({})".format(save['name'], save['date'])
+
+        # Label with mod name
+        date = save.get("date", "date?")
+        name = os.path.splitext(save.get("name", "name?"))[0]
+        mod = save.get("mod", "-?-")
+        label = line_fmt.format(
             DATE=date,
             MOD=mod[:mod_name_len],
             DOTS="…" if len(mod) > mod_name_len else " ",
             NAME=name,
         )
 
-        label = "{} ({})".format(save['name'], save['date'])
         choice = (key, label)
         load_choices.append(choice)
 
