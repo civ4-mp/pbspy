@@ -2,8 +2,8 @@
 
 from __future__ import unicode_literals
 from django.core.exceptions import ValidationError
-from django.utils.translation import ugettext as _
-from django.utils.translation import ugettext_noop
+from django.utils.translation import gettext as _
+from django.utils.translation import gettext_noop
 from django.db import models, transaction
 from django.core.validators import MaxValueValidator, MinValueValidator, URLValidator
 from django.core.validators import validate_comma_separated_integer_list
@@ -1083,15 +1083,15 @@ class GameLogPlayer(GameLog):
 
 
 class GameLogLogin(GameLogPlayer):
-    text = ugettext_noop("logged in")
+    text = gettext_noop("logged in")
 
 
 class GameLogLogout(GameLogPlayer):
-    text = ugettext_noop("logged out")
+    text = gettext_noop("logged out")
 
 
 class GameLogFinish(GameLogPlayer):
-    text = ugettext_noop("finished turn")
+    text = gettext_noop("finished turn")
 
 
 class GameLogScore(GameLogPlayer):
@@ -1115,15 +1115,15 @@ class GameLogNameChange(GameLogPlayer):
 
 
 class GameLogEliminated(GameLogPlayer):
-    text = ugettext_noop("eliminated")
+    text = gettext_noop("eliminated")
 
 
 class GameLogAI(GameLogPlayer):
-    text = ugettext_noop("converted to AI")
+    text = gettext_noop("converted to AI")
 
 
 class GameLogClaimed(GameLogPlayer):
-    text = ugettext_noop("claimed")
+    text = gettext_noop("claimed")
 
 
 class GameLogAdminAction(GameLog):

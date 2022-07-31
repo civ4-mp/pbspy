@@ -4,7 +4,7 @@ from django.forms import ModelForm, Form
 from django import forms
 from pbspy.models import Game, VictoryInfo
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 
 class ModelCommaSeparatedChoiceField(forms.ModelMultipleChoiceField):
