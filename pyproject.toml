@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "pbspy"
+version = "0.1.0"
+description = ""
+authors = ["zulan <git@zulan.net>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Django = "~4.0.6"
+django-bleach = ">=3.0.0"
+django-debug-toolbar = ">=3.5.0"
+django-registration-redux = ">=2.11"
+django-static-precompiler = ">=2.1"
+mysqlclient = ">=2.1.1"
+pytz = ">=2022.1"
+django-polymorphic = ">=3.1"
+
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
