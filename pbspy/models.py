@@ -24,8 +24,8 @@ import glob
 from collections import namedtuple
 from math import fmod  # modulo operator with sign preservation
 
-from six.moves.urllib.error import URLError
-from six.moves import urllib
+from urllib.error import URLError
+import urllib
 
 MONTH_NAMES_ENG = ["undefined", "january", "february", "march",
                    "april", "may", "june", "july", "august",
