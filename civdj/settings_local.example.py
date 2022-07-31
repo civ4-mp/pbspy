@@ -31,6 +31,3 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-SOUTH_DATABASE_ADAPTERS = {
-    'default': "south.db.sqlite3"
-}
