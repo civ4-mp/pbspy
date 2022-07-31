@@ -58,6 +58,8 @@ MIDDLEWARE = [
     'pbspy.middleware.timezone.TimezoneMiddleware',
 ]
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 ROOT_URLCONF = 'civdj.urls'
 
 WSGI_APPLICATION = 'civdj.wsgi.application'
