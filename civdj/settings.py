@@ -131,10 +131,6 @@ BLEACH_ALLOWED_TAGS = ['li', 'ul', 'img', 'br', 'p', 'a', 'b', 'strong', 'i', 'e
 # Which HTML attributes are allowed
 BLEACH_ALLOWED_ATTRIBUTES = ['src', 'alt', 'href']
 
-# Which CSS properties are allowed in 'style' attributes (assuming style is
-# an allowed attribute)
-BLEACH_ALLOWED_STYLES = []
-
 # Strip unknown tags if True, replace with HTML escaped characters if False
 BLEACH_STRIP_TAGS = True
 
