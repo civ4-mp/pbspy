@@ -17,14 +17,14 @@ functions to show the game status, a game log and to administrate the game.
 ## Installation of Django + Django packages with pip
 
 Here, we assume python3 >= python3.8.
-It is recommended to install the software within a virtualenv with pip.
+It is recommended to install the software with poetry.
 
 ### Dependencies
 
 ```
-sudo apt install python3-pip node-less
+sudo apt install python3-poetry node-less
 sudo apt install default-libmysqlclient-dev
-pip3 install -r requirements.txt
+poetry install
 ```
 
 ### Configuration
