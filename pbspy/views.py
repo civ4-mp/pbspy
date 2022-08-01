@@ -407,20 +407,6 @@ def game_manage(request, game_id, action=""):
                'short_names_form': GameManagementShortNamesForm(),
                'save_form': GameManagementSaveForm()}
 
-    """
-    saves = sorted(game.pb_list_saves(), key=lambda k: -k['timestamp'])
-    load_choices = [('restart', 'Save and reload current game')]
-
-    for save in saves:
-        folder_index = int(save['folderIndex'])
-        key = "/".join([str(folder_index), save['name']])
-        label = "{} ({})".format(save['name'], save['date'])
-        choice = (key, label)
-        load_choices.append(choice)
-
-    context['load_form'] = GameManagementLoadForm(load_choices)
-    """
-
     context['set_player_password_form'] = GameManagementSetPlayerPasswordForm(
         game.player_set.filter(ingame_stack=0))
 
@@ -507,6 +493,8 @@ def game_manage(request, game_id, action=""):
                     return HttpResponse('game saved.', status=200)
             context['save_form'] = form
         elif action == 'load':
+            saves = sorted(game.pb_list_saves(), key=lambda k: -k['timestamp'])
+            load_choices = _create_load_choices(saves)
             form = GameManagementLoadForm(load_choices, request.POST)
             if form.is_valid():
                 selected_file = form.cleaned_data['filename']
@@ -632,41 +620,7 @@ def render_game_manage_victory(request, game, context):
 
 def render_game_manage_load(request, game, context):
     saves = sorted(game.pb_list_saves(), key=lambda k: -k['timestamp'])
-    load_choices = [('restart', 'Save and reload current game')]
-
-
-    # Evaluate space needed for mod name
-    mod_name_max_len = 20  # Upper bound
-    mod_name_len = 4       # Lower bound
-    for save in saves:
-            mod_name_len = max(mod_name_len,len(save.get("mod","")))
-    mod_name_len = min(mod_name_max_len, mod_name_len)
-
-    # Prepare format strings
-    # header_fmt="{{:24s}} {{:{}s}} | {{}}".format(mod_name_len)
-    line_fmt="{{DATE:24s}} {{MOD:{}s}}{{DOTS}}| {{NAME}}".format(mod_name_len)
-
-    for save in saves:
-        folder_index = int(save['folderIndex'])
-        key = "/".join([str(folder_index), save['name']])
-
-        # Simple label
-        # label = "{} ({})".format(save['name'], save['date'])
-
-        # Label with mod name
-        date = save.get("date", "date?")
-        name = os.path.splitext(save.get("name", "name?"))[0]
-        mod = save.get("mod", "-?-")
-        label = line_fmt.format(
-            DATE=date,
-            MOD=mod[:mod_name_len],
-            DOTS="…" if len(mod) > mod_name_len else " ",
-            NAME=name,
-        )
-
-        choice = (key, label)
-        load_choices.append(choice)
-
+    load_choices = _create_load_choices(saves)
     context['load_form'] = GameManagementLoadForm(load_choices)
     context['players_online'] = game.get_online_players()
     return render(request, 'pbspy/game_manage_load.html', context)
@@ -957,3 +911,41 @@ def save_current_filter(session, game, filter_name, bAbsolute=False):
     session.modified = True
 
     save_default_filter(session, game)
+
+def _create_load_choices(saves):
+    load_choices = [('restart', 'Save and reload current game')]
+
+
+    # Evaluate space needed for mod name
+    mod_name_max_len = 20  # Upper bound
+    mod_name_len = 4       # Lower bound
+    for save in saves:
+            mod_name_len = max(mod_name_len,len(save.get("mod","")))
+    mod_name_len = min(mod_name_max_len, mod_name_len)
+
+    # Prepare format strings
+    # header_fmt="{{:24s}} {{:{}s}} | {{}}".format(mod_name_len)
+    line_fmt="{{DATE:24s}} {{MOD:{}s}}{{DOTS}}| {{NAME}}".format(mod_name_len)
+
+    for save in saves:
+        folder_index = int(save['folderIndex'])
+        key = "/".join([str(folder_index), save['name']])
+
+        # Simple label
+        # label = "{} ({})".format(save['name'], save['date'])
+
+        # Label with mod name
+        date = save.get("date", "date?")
+        name = os.path.splitext(save.get("name", "name?"))[0]
+        mod = save.get("mod", "-?-")
+        label = line_fmt.format(
+            DATE=date,
+            MOD=mod[:mod_name_len],
+            DOTS="…" if len(mod) > mod_name_len else " ",
+            NAME=name,
+        )
+
+        choice = (key, label)
+        load_choices.append(choice)
+
+    return load_choices
