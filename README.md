@@ -39,11 +39,11 @@ for other setups.
 This uses Debug mode. Release mode requires more steps.
 
 ```
-python3 manage.py migrate
-python3 manage.py migrate static_precompiler
-python3 manage.py compilestatic
-python3 manage.py collectstatic
-python3 manage.py createsuperuser
+poetry run python manage.py migrate
+poetry run python manage.py migrate static_precompiler
+poetry run python manage.py compilestatic
+poetry run python manage.py collectstatic
+poetry run python manage.py createsuperuser
 ```
 
 ### Start
