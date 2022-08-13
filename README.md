@@ -46,18 +46,28 @@ poetry run python manage.py collectstatic
 poetry run python manage.py createsuperuser
 ```
 
-### Start
+### Local server start
 
 ```
-python3 manage.py runserver 0.0.0.0:8000
+poetry run python manage.py runserver 0.0.0.0:8000
+```
+
+### Running in apache with WSGI
+
+Example:
+```
+WSGIScriptAlias /pbspy /home/civweb/pbspy/civdj/wsgi.py
+WSGIDaemonProcess civ.zulan.net python-home=/home/civweb/pbspy/.venv python-path=/home/civweb/pbspy
+WSGIProcessGroup civ.zulan.net
+WSGIApplicationGroup %{GLOBAL}
 ```
 
 ### Update of Localization
 
 ```
-python3 manage.py makemessages -l de
+poetry run python manage.py makemessages -l de
 [Editing po file, e.g insert new translations ]
-python3 manage.py compilemessages -l de
+poetry run python manage.py compilemessages -l de
 ```
 
 
