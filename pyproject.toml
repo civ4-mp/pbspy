@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "pbspy"
-version = "0.1.0"
+version = "0.2.0"
 description = ""
 authors = ["zulan <git@zulan.net>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-Django = "~4.0.6"
+Django = "~4.2"
 django-bleach = ">=3.0.0"
 django-debug-toolbar = ">=3.5.0"
 django-registration-redux = ">=2.11"
