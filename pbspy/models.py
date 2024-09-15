@@ -26,6 +26,11 @@ from math import fmod  # modulo operator with sign preservation
 
 from urllib.error import URLError
 import urllib
+import logging
+
+
+logger = logging.getLogger(__name__)
+
 
 MONTH_NAMES_ENG = ["undefined", "january", "february", "march",
                    "april", "may", "june", "july", "august",
@@ -405,7 +410,8 @@ class Game(models.Model):
         request = urllib.request.Request(url, data, headers)
         try:
             response = urllib.request.urlopen(request, timeout=20)
-        except URLError:
+        except (URLError, ConnectionResetError) as e:
+            logger.error(f"Failed to connect to {self} via {url}: {e}")
             raise InvalidPBResponse(_("Failed to connect to server."))
 
         # which decoding? Let's just hope default (probably utf-8) is ok
