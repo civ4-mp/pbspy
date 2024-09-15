@@ -14,7 +14,7 @@ django-static-precompiler = ">=2.1"
 mysqlclient = ">=2.1.1"
 pytz = ">=2022.1"
 django-polymorphic = ">=3.1"
-
+setuptools = "^70.2.0"
 
 [tool.poetry.dev-dependencies]
 
