@@ -779,6 +779,7 @@ def game_update(request):
     try:
         game_id = int(request.POST['id'])
         pw_hash = request.POST['pwHash']
+        game = Game.objects.get(id=game_id)
     except (KeyError, ValueError):
         logger.error('invalid game pw hash, id: {} / {}'.format(game_id, request.META.get('REMOTE_ADDR')))
         return HttpResponseBadRequest('bad request')
@@ -786,7 +787,6 @@ def game_update(request):
         logger.error('invalid game requested, id: {} / {}'.format(game_id, request.META.get('REMOTE_ADDR')))
         return HttpResponseBadRequest('game id not found')
 
-    game = Game.objects.get(id=game_id)
     if pw_hash != game.auth_hash():
         return HttpResponse('unauthorized', status=401)
 
