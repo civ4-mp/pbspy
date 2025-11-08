@@ -44,6 +44,7 @@ INSTALLED_APPS = (
 MIDDLEWARE = [
     # 2.2 defaults
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -57,6 +58,12 @@ MIDDLEWARE = [
     # custom
     'pbspy.middleware.timezone.TimezoneMiddleware',
 ]
+
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
@@ -111,10 +118,8 @@ ACCOUNT_ACTIVATION_DAYS = 7
 
 LOGIN_REDIRECT_URL = 'game_list'
 
-# Overwrite this paths in settings_local.py for DEBUG=False
-# For DEBUG=True, the path [PBStats/]civdj/static seems to be ok...
-STATIC_ROOT = os.path.join(BASE_DIR, 'collectstatic_target', 'static')
-STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = "static/"
 
 STATIC_PRECOMPILER_FINDER_LIST_FILES = True
 
