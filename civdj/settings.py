@@ -29,11 +29,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'registration',
     'django.contrib.admin',
     'polymorphic',
-    #    'registration',
-    # Deprecated variant, see
-    # https://github.com/ubernostrum/django-registration/blob/master/docs/quickstart.rst
     'debug_toolbar',
     # 'erroneous',
     'static_precompiler',
@@ -142,6 +140,9 @@ BLEACH_STRIP_TAGS = True
 # Strip HTML comments, or leave them in.
 BLEACH_STRIP_COMMENTS = True
 
+# Registration
+ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
+REGISTRATION_AUTO_LOGIN = True # Automatically log the user in.
 
 from civdj.settings_local import *
 
@@ -152,3 +153,4 @@ for d in compile_target_dirs:
     out_d = os.path.join(STATIC_ROOT, 'COMPILED', d)
     if not os.path.exists(out_d):
         os.makedirs(out_d)
+

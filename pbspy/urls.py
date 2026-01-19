@@ -22,7 +22,7 @@ urlpatterns = [
     re_path(r'^update$', views.game_update),
     re_path(r'^game/create/$', views.game_create, name='game_create'),
     re_path(r'^set_timezone$', views.set_timezone, name='set_timezone'),
-    re_path(r'^accounts/', include('registration.backends.simple.urls')),
+    re_path(r'^accounts/', include('registration.backends.default.urls')),
     re_path(r'^browserconfig.xml$', views.gen_browserconfig, name='gen_browserconfig'),
 ]
 
