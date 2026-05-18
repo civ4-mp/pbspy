@@ -1,6 +1,7 @@
-import pytz
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from django.utils import timezone
+from django.conf import settings
 
 
 class TimezoneMiddleware:
@@ -11,13 +12,12 @@ class TimezoneMiddleware:
         tzname = request.session.get('django_timezone')
         if tzname:
             try:
-                timezone.activate(pytz.timezone(tzname))
-            except pytz.exceptions.UnknownTimeZoneError:
+                timezone.activate(ZoneInfo(tzname))
+            except ZoneInfoNotFoundError:
                 request.session['django_timezone'] = None
         else:
-            from django.conf import settings
             try:
-                timezone.activate(pytz.timezone(settings.TIME_ZONE_INTERFACE))
+                timezone.activate(ZoneInfo(settings.TIME_ZONE_INTERFACE))
             except AttributeError:
                 timezone.deactivate()
         return self.get_response(request)

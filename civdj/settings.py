@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import sys
 import os
-import django
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -94,17 +93,9 @@ TEMPLATES = [
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
-TIME_WITH_SECONDS_FORMAT_STR = "H:i:s"
-# Django 1.9 (and 1.8?), formats.time_format() requires string with constant name :un:
-# This was fixed in 1.11 (or 1.10)
-if django.VERSION == (1, 9):
-    TIME_WITH_SECONDS_FORMAT = "TIME_WITH_SECONDS_FORMAT_STR"
-else:
-    TIME_WITH_SECONDS_FORMAT = TIME_WITH_SECONDS_FORMAT_STR
+TIME_WITH_SECONDS_FORMAT = "H:i:s"
 
 USE_I18N = True
-
-USE_L10N = True
 
 USE_TZ = True
 

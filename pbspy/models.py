@@ -927,7 +927,9 @@ class Player(models.Model):
 
     class Meta:
         unique_together = (('ingame_id', 'game','ingame_stack'),)
-        index_together  = (('ingame_id', 'game'),)
+        indexes = [
+            models.Index(fields=['ingame_id', 'game'], name='pbspy_player_ingame_game_idx'),
+        ]
 
     def __str__(self):
         return _("{name} ({leader} of {civilization})").format(name=self.name,

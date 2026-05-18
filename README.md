@@ -16,7 +16,7 @@ functions to show the game status, a game log and to administrate the game.
 
 ## Installation of Django + Django packages with pip
 
-Here, we assume python3 >= python3.8.
+Here, we assume python3 >= python3.10.
 It is recommended to install the software with poetry.
 
 ### Dependencies

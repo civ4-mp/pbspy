@@ -6,7 +6,7 @@ import json
 import operator
 import functools
 from datetime import datetime
-import pytz
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 import logging
 
 # from django import forms
@@ -651,8 +651,8 @@ def set_timezone(request):
     #tz =  str(request.COOKIES.get('timezone',settings.TIME_ZONE))
     tz = str(request.GET.get('timezone', request.COOKIES.get('timezone', None)))
     try:
-        tzobj = pytz.timezone(tz)
-    except pytz.exceptions.UnknownTimeZoneError:
+        ZoneInfo(tz)
+    except ZoneInfoNotFoundError:
         return HttpResponse('Invalid timezone: ' + escape(tz))
 
     request.session['django_timezone'] = tz

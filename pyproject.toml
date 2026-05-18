@@ -6,19 +6,18 @@ authors = ["zulan <git@zulan.net>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-Django = "~4.2"
+Django = "~5.2"
 django-bleach = ">=3.0.0"
 django-debug-toolbar = ">=3.5.0"
 django-registration-redux = ">=2.11"
 django-static-precompiler = ">=2.1"
 mysqlclient = ">=2.1.1"
-pytz = ">=2022.1"
 django-polymorphic = ">=3.1"
 setuptools = "^70.2.0"
 gunicorn = "^23.0.0"
 whitenoise = "^6.11.0"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
