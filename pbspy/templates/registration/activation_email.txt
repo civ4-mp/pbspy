@@ -1,6 +1,6 @@
 {% load i18n %}
 {% trans "To activate your account at Civ4 pbspy, follow this link." %}:
-http://civ.zulan.net{% url 'registration_activate' activation_key %}
+{% url 'registration_activate' activation_key as activation_url %}{% if request %}{{ request.scheme }}://{{ request.get_host }}{{ activation_url }}{% else %}https://{{ site.domain }}{{ activation_url }}{% endif %}
 {% blocktrans %}
 The link is valid for {{ expiration_days }} days.
 If you did not request a registration, please disregard this message.
