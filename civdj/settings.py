@@ -107,6 +107,9 @@ ACCOUNT_ACTIVATION_DAYS = 7
 
 LOGIN_REDIRECT_URL = 'game_list'
 
+REGISTRATION_FORM = 'pbspy.forms.SpamProtectedRegistrationForm'
+REGISTRATION_INVITE_CODE = None
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "static/"
 
@@ -144,4 +147,3 @@ for d in compile_target_dirs:
     out_d = os.path.join(STATIC_ROOT, 'COMPILED', d)
     if not os.path.exists(out_d):
         os.makedirs(out_d)
-

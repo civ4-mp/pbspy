@@ -2,9 +2,12 @@
 
 from django.forms import ModelForm, Form
 from django import forms
+from django.conf import settings
+from django.utils.crypto import constant_time_compare
 from pbspy.models import Game, VictoryInfo
 from django.contrib.auth.models import User
 from django.utils.translation import gettext as _
+from registration.forms import RegistrationForm
 
 
 class ModelCommaSeparatedChoiceField(forms.ModelMultipleChoiceField):
@@ -23,6 +26,36 @@ class ModelCommaSeparatedChoiceField(forms.ModelMultipleChoiceField):
             return value
         else:
             return []
+
+
+class SpamProtectedRegistrationForm(RegistrationForm):
+    website = forms.CharField(
+        required=False,
+        label=_("Website"),
+        widget=forms.HiddenInput,
+    )
+    invite_code = forms.CharField(
+        label=_("Invite code"),
+        help_text=_("Ask an existing PBSpy user for the current invite code."),
+    )
+
+    def clean_website(self):
+        if self.cleaned_data.get("website"):
+            raise forms.ValidationError(_("Invalid registration submission."))
+        return ""
+
+    def clean_invite_code(self):
+        expected_code = getattr(settings, "REGISTRATION_INVITE_CODE", None)
+        expected_code = (expected_code or "").strip()
+        invite_code = self.cleaned_data.get("invite_code", "").strip()
+
+        if not expected_code:
+            raise forms.ValidationError(_("Registration is currently closed."))
+
+        if not constant_time_compare(invite_code, expected_code):
+            raise forms.ValidationError(_("Invalid invite code."))
+
+        return invite_code
 
 
 class GameForm(ModelForm):

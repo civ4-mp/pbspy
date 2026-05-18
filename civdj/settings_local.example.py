@@ -24,6 +24,8 @@ if not DEBUG:
 
 BASE_URL = 'https://localhost'
 
+REGISTRATION_INVITE_CODE = 'change-me'
+
 # Look into django docs for setup
 DATABASES = {
     'default': {
